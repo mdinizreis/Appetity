@@ -14,6 +14,7 @@ function App() {
       <br />
       <Ingredients></Ingredients>
       <br />
+      <p>Test</p>
       <Recipe></Recipe>
     </div>
   );
