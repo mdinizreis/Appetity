@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const Ingredients = () => {
-  const [recipes, setRecipes] = useState();
+  const [recipes, setRecipes] = useState([]);
   const [ingredientsQuery, setIngredientsQuery] = useState("");
 
   const handleSubmit = async (event) => {
@@ -26,7 +26,11 @@ const Ingredients = () => {
 
       if (ingredientsQueryRes.ok) {
         const data = await ingredientsQueryRes.json();
-        setRecipes(data);
+        let ingredients = [];
+        data.map((id) => ingredients.push(id.title));
+        console.log(ingredients);
+        setRecipes(ingredients);
+        // setRecipes(data);
       } else {
         console.log("Failed to load recipes");
       }

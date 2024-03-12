@@ -1,37 +1,78 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const Upload = () => {
   const [results, setResults] = useState();
-  const [file, setFile] = useState([]);
+  const [file, setFile] = useState();
+  const [fileBase64, setFileBase64] = useState();
+
+  /*====================
+    BASE64 ENCODING THE UPLOADED IMAGE (REQUIRED BY ROBOFLOW API)
+    Base64 encoding converts the image into a readable string
+    ====================*/
+  const convertToBase64 = () => {
+    //check if the file is valid. Blob (Binary Large Object) object represents a chunk of binary data representing the image file.
+    if (file instanceof Blob) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        setFileBase64(reader.result);
+      };
+    } else {
+      console.log("Invalid File");
+      alert("Invalid File! Please upload an image file");
+    }
+  };
+
+  /*====================
+    UseEffect ENSURES API CALL IS ONLY EXECUTED WHEN fileBase64 HAS PROPER DATA
+    useEffect hook that watches for changes in the fileBase64 state using the dependency array [fileBase64].
+    When fileBase64 changes (i.e., when it receives the proper data), the useEffect hook is triggered, and the API call is executed.
+    ====================*/
+  useEffect(() => {
+    if (fileBase64) {
+      //API Documentation: https://docs.roboflow.com/deploy/hosted-api/object-detection
+      //Inference Test Web App https://detect.roboflow.com/?model=appetity&version=2&api_key=DP7mVPDXbkpd2q9mS1hU
+      axios({
+        method: "POST",
+        url: "https://detect.roboflow.com/appetity/2",
+        params: {
+          api_key: "DP7mVPDXbkpd2q9mS1hU",
+          confidence: 30,
+        },
+        data: fileBase64,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+        .then(function (response) {
+          console.log(response.data);
+          let ingredientsPrediction = [];
+          response.data.predictions.map((prediction) =>
+            ingredientsPrediction.push(prediction.class)
+          );
+          ingredientsPrediction = [...new Set(ingredientsPrediction)]; //Remove duplicates: create new array with ingredients[] unique values
+          setResults(ingredientsPrediction);
+          // setResults(response.data);
+          console.log("3-Reached Successful response");
+        })
+        .catch(function (error) {
+          console.log(error.message);
+          console.log("4-NO RESPONSE");
+        });
+    }
+  }, [fileBase64]);
 
   const handleUploadClick = (event) => {
     event.preventDefault();
-
+    convertToBase64();
     console.log("2-Reached handleUploadClick");
-    axios({
-      method: "POST",
-      url: "https://detect.roboflow.com/appetity/2",
-      params: {
-        api_key: "DP7mVPDXbkpd2q9mS1hU",
-        image:
-          "https://media.istockphoto.com/id/924476838/photo/delicious-pizza-with-ingredients-and-spices.jpg?s=2048x2048&w=is&k=20&c=I65rinzAfm6Q9rG4CGtvsYk8txtRfGtpGzP3QURqv0k=",
-      },
-    })
-      .then(function (response) {
-        console.log(response.data);
-        setResults(response.data);
-        console.log("3-Reached Successful response");
-      })
-      .catch(function (error) {
-        console.log(error.message);
-        console.log("4-NO RESPONSE");
-      });
   };
 
   return (
     /*====================
-    UPLOAD FILE LABELS, BROWSE AND SUBMIT
+    UPLOAD FILE LABELS & BUTTON
+    Submit button (Upload) will call the function to kick off the API call for Ingredients detection
     ====================*/
     <div className="card">
       <div className="card-header">GET INGREDIENTS BASED ON IMAGE UPLOAD</div>
@@ -52,9 +93,9 @@ const Upload = () => {
             }}
           />
           <button type="submit" className="btn btn-primary mb-2">
-            Call Roboflow
+            Detect Ingredients
           </button>
-          <div>{file && `${file.name} - ${file.type}`}</div>
+          <div>{file && `Type: ${file.type}`}</div>
         </form>
       </div>
       <h3>Response:</h3>
