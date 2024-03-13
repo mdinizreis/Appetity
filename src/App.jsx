@@ -1,21 +1,30 @@
-import React from "react";
-import Upload from "./components/Upload";
-import Recipe from "./components/Recipe";
-import Ingredients from "./components/Ingredients";
+import React, { Suspense } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+const Main = React.lazy(() => import("./pages/Main"));
+const RecipesSearch = React.lazy(() => import("./pages/RecipesSearch"));
+const RecipesByIngredients = React.lazy(() =>
+  import("./pages/RecipesByIngredients")
+);
+const NotFound = React.lazy(() => import("./pages/NotFound"));
+import NavBar from "./components/NavBar";
 
 function App() {
   return (
-    <div>
-      <div className="text-center">
-        <img className="img-fluid" src="./appetity-Logo-Reduced.png"></img>
-      </div>
-
-      <Upload></Upload>
-      <br />
-      <Ingredients></Ingredients>
-      <br />
-      <Recipe></Recipe>
-    </div>
+    <>
+      <Suspense fallback={<h1>loading...</h1>}>
+        <NavBar></NavBar>
+        <Routes>
+          <Route path="/" element={<Navigate replace to="/main" />} />
+          <Route path="main" element={<Main />} />
+          <Route path="RecipesSearch" element={<RecipesSearch />} />
+          <Route
+            path="RecipesByIngredients"
+            element={<RecipesByIngredients />}
+          />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+    </>
   );
 }
 

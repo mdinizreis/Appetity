@@ -25,7 +25,7 @@ const Upload = () => {
   };
 
   /*====================
-    UseEffect ENSURES API CALL IS ONLY EXECUTED WHEN fileBase64 HAS PROPER DATA
+    ENSURES (UseEffect) API CALL IS ONLY EXECUTED WHEN UPLOADED IMAGE IS PROCESSED (fileBase64 has proper data)
     useEffect hook that watches for changes in the fileBase64 state using the dependency array [fileBase64].
     When fileBase64 changes (i.e., when it receives the proper data), the useEffect hook is triggered, and the API call is executed.
     ====================*/

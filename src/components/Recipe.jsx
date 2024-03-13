@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import RecipeDisplay from "./RecipeDisplay";
 
 const Recipe = () => {
-  const [recipes, setRecipes] = useState();
+  const navigate = useNavigate(); //useNavigate hook to handle navigation programmatically.
+  const [recipes, setRecipes] = useState([]);
   const [recipeQuery, setRecipeQuery] = useState("");
 
   const handleSubmit = async (event) => {
@@ -26,6 +29,10 @@ const Recipe = () => {
       if (recipeQueryRes.ok) {
         const data = await recipeQueryRes.json();
         setRecipes(data);
+        console.log(data);
+        //after successfully fetching the recipes data redirect (navigate) to the RecipesSearch page and pass the recipes data as a state object
+        navigate("/RecipesSearch", { state: { recipes: data } });
+        // setRecipes(JSON.stringify(data));
       } else {
         console.log("Failed to load recipes");
       }
@@ -34,9 +41,19 @@ const Recipe = () => {
     }
   };
 
+  // useEffect(() => {
+  //   console.log(recipes);
+  //   // console.log(recipes.from);
+  //   // console.log(recipes.to);
+  //   // console.log(recipes.from);
+  //   // setCount(JSON.parse(recipes).count);
+  //   // setFrom(JSON.parse(recipes).from);
+  //   // setTo(JSON.parse(recipes).to);
+  // }, [recipes]);
+
   return (
     <div className="card">
-      <div className="card-header">SEARCH RECIPES BASED ON SEARCH TEARM</div>
+      <div className="card-header">SEARCH RECIPES BASED ON SEARCH TERM</div>
       <div className="card-body">
         <h5 className="card-title">Edamam API</h5>
         <p className="card-text">
@@ -60,8 +77,6 @@ const Recipe = () => {
           </button>
         </form>
       </div>
-      <h3>Response:</h3>
-      <p>{JSON.stringify(recipes)}</p>
     </div>
   );
 };
