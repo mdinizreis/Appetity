@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import { useLocation } from "react-router-dom";
 import Ingredients from "../components/Ingredients";
+import styles from "../components/IngredientsDisplay.module.css";
 
 const RecipesByIngredients = () => {
   const [ingredients, setIngredients] = useState([]);
@@ -9,11 +10,12 @@ const RecipesByIngredients = () => {
   const [ingredientOptions, setIngredientOptions] = useState([]);
 
   const location = useLocation();
+  /*====================
+   Check if location state is truthy (meaning user landed on this page from the Main page) and if it is update haveIngredients
+  otherwise set haveIngredients to null
+  ====================*/
+
   const haveIngredients = location.state?.haveIngredients ?? null;
-  // if (haveIngredients) {
-  //   setIngredients([...ingredients, haveIngredients]);
-  //   console.log("RecipesByIngredients", haveIngredients);
-  // }
 
   const handleSelectIngredient = (selectedOption) => {
     const selectedIngredient = selectedOption.value;
@@ -27,6 +29,15 @@ const RecipesByIngredients = () => {
     updatedIngredients.splice(index, 1);
     setIngredients(updatedIngredients);
   };
+
+  useEffect(() => {
+    //load roboflow detected ingredients to the ingredients array
+    if (haveIngredients) {
+      setIngredients(haveIngredients);
+      console.log("RecipesByIngredients haveIngredients", haveIngredients);
+      console.log("RecipesByIngredients ingredients", ingredients);
+    }
+  }, [haveIngredients]);
 
   useEffect(() => {
     // Fetch ingredient options from Airtable
@@ -47,6 +58,9 @@ const RecipesByIngredients = () => {
           label: record.fields.ingredient,
         }));
         setIngredientOptions(transformedOptions);
+        if (data.offset) {
+          //insert recursive call to go all the way to the 1000 items
+        }
       })
       .catch((error) => {
         console.error("Error fetching ingredient options:", error);
@@ -66,24 +80,29 @@ const RecipesByIngredients = () => {
           value={searchValue}
           onChange={handleSelectIngredient}
         />
-        {console.log(ingredients)}
-        <ul className="list-group list-group-flush">
-          {ingredients.map((ingredient, index) => (
-            <li key={index}>
-              {ingredient}
+      </div>
+      <br />
+
+      {console.log(ingredients)}
+      <div className={styles.container}>
+        {ingredients.map((ingredient, index) => (
+          <ul
+            className="list-group list-group-flush border border-warning rounded"
+            key={index}
+          >
+            <li className="list-group-item">
               <button
-                className="btn btn-danger btn-sm rounded-circle pl-10"
+                className={styles.button}
                 type="button"
                 data-toggle="tooltip"
                 data-placement="top"
                 title="Delete"
                 onClick={() => handleRemoveIngredient(index)}
-              >
-                -
-              </button>
+              ></button>{" "}
+              {ingredient}
             </li>
-          ))}
-        </ul>
+          </ul>
+        ))}
       </div>
     </>
   );

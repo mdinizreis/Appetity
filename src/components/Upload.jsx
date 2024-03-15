@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "./LoadingSpinner";
 import axios from "axios";
 
 const Upload = () => {
@@ -7,6 +8,8 @@ const Upload = () => {
   const [results, setResults] = useState();
   const [file, setFile] = useState();
   const [fileBase64, setFileBase64] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   /*====================
     BASE64 ENCODING THE UPLOADED IMAGE (REQUIRED BY ROBOFLOW API)
@@ -34,7 +37,6 @@ const Upload = () => {
   useEffect(() => {
     if (fileBase64) {
       //API Documentation: https://docs.roboflow.com/deploy/hosted-api/object-detection
-      //Inference Test Web App https://detect.roboflow.com/?model=appetity&version=2&api_key=DP7mVPDXbkpd2q9mS1hU
       axios({
         method: "POST",
         url: import.meta.env.VITE_ROBOFLOW,
@@ -56,12 +58,14 @@ const Upload = () => {
           ingredientsPrediction = [...new Set(ingredientsPrediction)]; //Remove duplicates: create new array with ingredients[] unique values
           setResults(ingredientsPrediction);
           // setResults(response.data);
+          console.log("Upload ingredients prediction: ", ingredientsPrediction);
           navigate("/RecipesByIngredients", {
             state: { haveIngredients: ingredientsPrediction },
           });
           console.log("3-Reached Successful response");
         })
         .catch(function (error) {
+          setError(err.message);
           console.log(error.message);
           console.log("4-NO RESPONSE");
         });
@@ -70,6 +74,8 @@ const Upload = () => {
 
   const handleUploadClick = (event) => {
     event.preventDefault();
+    setIsLoading(true);
+    setError(null);
     convertToBase64();
     console.log("2-Reached handleUploadClick");
   };
@@ -105,6 +111,14 @@ const Upload = () => {
       </div>
       <h3>Response:</h3>
       <p>{JSON.stringify(results)}</p>
+
+      {isLoading && (
+        <div className="centered">
+          <LoadingSpinner />
+        </div>
+      )}
+
+      {!isLoading && error && <p>{error}</p>}
     </div>
   );
 };
