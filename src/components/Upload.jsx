@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Upload = () => {
+  const navigate = useNavigate();
   const [results, setResults] = useState();
   const [file, setFile] = useState();
   const [fileBase64, setFileBase64] = useState();
@@ -35,9 +37,9 @@ const Upload = () => {
       //Inference Test Web App https://detect.roboflow.com/?model=appetity&version=2&api_key=DP7mVPDXbkpd2q9mS1hU
       axios({
         method: "POST",
-        url: "https://detect.roboflow.com/appetity/2",
+        url: import.meta.env.VITE_ROBOFLOW,
         params: {
-          api_key: "DP7mVPDXbkpd2q9mS1hU",
+          api_key: import.meta.env.VITE_ROBOFLOW_API_KEY,
           confidence: 30,
         },
         data: fileBase64,
@@ -54,6 +56,9 @@ const Upload = () => {
           ingredientsPrediction = [...new Set(ingredientsPrediction)]; //Remove duplicates: create new array with ingredients[] unique values
           setResults(ingredientsPrediction);
           // setResults(response.data);
+          navigate("/RecipesByIngredients", {
+            state: { haveIngredients: ingredientsPrediction },
+          });
           console.log("3-Reached Successful response");
         })
         .catch(function (error) {

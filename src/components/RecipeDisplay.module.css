@@ -1,0 +1,43 @@
+.article {
+  width: 15.8rem;
+  border: solid white;
+  border-radius: 0.8em;
+}
+
+/* Recipe Image */
+.article img {
+  border: solid white;
+  border-radius: 0.8em;
+}
+
+/* Calories, Yield and Time labels */
+.article label {
+  font-size: small;
+  color: orangered;
+  padding-left: 0.5em;
+}
+
+.article a {
+  font-size: small;
+  color: orangered;
+  text-decoration: none;
+}
+
+/* Recipe Title */
+.article h4 {
+  font-size: 1.5em;
+  color: black;
+  font-family: "Roboto";
+}
+
+.recipelist {
+  background-color: whitesmoke;
+  font-family: "Roboto";
+}
+
+/* Found x Recipe label */
+.recipelist h5 {
+  text-align: center;
+  color: rgb(96, 96, 96);
+  font-family: "Roboto";
+}

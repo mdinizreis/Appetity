@@ -1,21 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import RecipeDisplay from "./RecipeDisplay";
+// import RecipeDisplay from "./RecipeDisplay";
 
 const Recipe = () => {
   const navigate = useNavigate(); //useNavigate hook to handle navigation programmatically.
   const [recipes, setRecipes] = useState([]);
   const [recipeQuery, setRecipeQuery] = useState("");
 
+  /*====================
+    RECIEVES RECIPE QUERY FROM INPUT,  FETCH EDAMAM API DATA AND PASS AS STATE OBJECT
+    Pass the recipes data as a state object to Recipes page (for it to be processed and displayed)
+    ====================*/
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
+      //Importing URL, API KEY and APP ID from .env file
       const url = new URL(import.meta.env.VITE_EDAMAM);
-      //   const url = new URL("https://api.edamam.com/api/recipes/v2");
       url.searchParams.append("type", "public");
-      url.searchParams.append("app_key", "d594173ed0535126fa9ce347fc8c9e98"); //can this go to the .env file?
-      url.searchParams.append("app_id", "e1eb38f1");
+      url.searchParams.append("app_key", import.meta.env.VITE_EDAMAM_API_KEY);
+      url.searchParams.append("app_id", import.meta.env.VITE_EDAMAM_API_APP_ID);
       url.searchParams.append("q", recipeQuery);
       console.log(url);
 
@@ -40,16 +44,6 @@ const Recipe = () => {
       console.log(error.message);
     }
   };
-
-  // useEffect(() => {
-  //   console.log(recipes);
-  //   // console.log(recipes.from);
-  //   // console.log(recipes.to);
-  //   // console.log(recipes.from);
-  //   // setCount(JSON.parse(recipes).count);
-  //   // setFrom(JSON.parse(recipes).from);
-  //   // setTo(JSON.parse(recipes).to);
-  // }, [recipes]);
 
   return (
     <div className="card">

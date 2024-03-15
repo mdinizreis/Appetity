@@ -1,43 +1,57 @@
 import React from "react";
+import styles from "./RecipeDisplay.module.css";
 
 const RecipeDisplay = (props) => {
-  console.log("Yield: ", props.yield);
-  console.log("Total Time: ", props.totalTime);
-  console.log("Calories: ", Math.round(parseFloat(props.calories)));
-  //   console.log("Ingredients", props.ingredientLines.length);
-
   return (
-    <article>
-      {/* recipe image */}
-      <a href={props.url}>
-        <img
-          alt="Recipe Image"
-          src={props.image}
-          width="200"
-          height="200"
-        ></img>
-      </a>
-      <br />
-      {/* Source name with link */}
-      <a href={props.url}>{props.source}</a>
-      {/* Recipe Title with link*/}
-      <h3>
-        <a href={props.url}>{props.label}</a>
-      </h3>
-      <label>Calories: {Math.round(parseFloat(props.calories))}</label>
-      <br />
-      <label>Portions: {props.yield}</label>
-      <br />
-      <label>Total Time: {props.totalTime}</label>
-      {/* Ingredients List */}
-      <ul>
-        {props.ingredientLines.map((ingredient, index) => (
-          <li key={index}>
-            <span>{ingredient}</span>
-          </li>
-        ))}
-      </ul>
-    </article>
+    <td>
+      <article className={styles.article}>
+        {/************ RECIPE IMAGE ************/}
+        <a href={props.url}>
+          <img
+            alt="Recipe Image"
+            src={props.image}
+            width="250"
+            height="250"
+          ></img>
+        </a>
+        <br />
+        {/************ RECIPE SOURCE NAME WITH LINK ************/}
+        <a href={props.url}>{props.source}</a>
+
+        {/************ RECIPE TITLE WITH LINK ************/}
+        <a href={props.url}>
+          <h4>{props.label}</h4>
+        </a>
+        <tr>
+          <td>
+            <label>
+              <strong>Cal:</strong> {Math.round(parseFloat(props.calories))}{" "}
+              kcal
+            </label>
+          </td>
+          <td>
+            <label>
+              {" "}
+              <strong>Yield:</strong> {props.yield}
+            </label>
+          </td>
+
+          <td>
+            <label>
+              <strong> Time:</strong> {props.totalTime} min
+            </label>
+          </td>
+        </tr>
+        {/************ RECIPE'S INGREDIENTS LIST ************/}
+        <ul className="list-group list-group-flush">
+          {props.ingredientLines.map((ingredient, index) => (
+            <li className="list-group-item" key={index}>
+              <span>{ingredient}</span>
+            </li>
+          ))}
+        </ul>
+      </article>
+    </td>
   );
 };
 
