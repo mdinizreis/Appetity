@@ -6,7 +6,6 @@ const Main = () => {
   return (
     <>
       <Recipe></Recipe>
-      <br />
       <Upload></Upload>
     </>
   );

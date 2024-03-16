@@ -18,27 +18,30 @@ const RecipesSearch = () => {
         <div>
           <Recipe></Recipe>
           {/************ DISPLAY 'RECIPES FOUND' COUNTER ************/}
+          <br />
           <div className={styles.recipelist}>
             <h5>Found {recipes?.count ?? 0} Recipes</h5>
           </div>
           {/************ DISPLAY RECIPE LIST ************/}
-          <div className={styles.recipelist}>
-            {recipes.hits.map((hit, idx) => {
-              return (
-                <RecipeDisplay
-                  calories={hit.recipe.calories}
-                  image={hit.recipe.image}
-                  ingredientLines={hit.recipe.ingredientLines}
-                  label={hit.recipe.label}
-                  source={hit.recipe.source}
-                  totalTime={hit.recipe.totalTime}
-                  url={hit.recipe.url}
-                  yield={hit.recipe.yield}
-                  key={idx}
-                  id={idx}
-                ></RecipeDisplay>
-              );
-            })}
+          <div className={styles.recipelistContainer}>
+            <div className={styles.recipelist}>
+              {recipes.hits.map((hit, idx) => {
+                return (
+                  <RecipeDisplay
+                    calories={hit.recipe.calories}
+                    image={hit.recipe.image}
+                    ingredientLines={hit.recipe.ingredientLines}
+                    label={hit.recipe.label}
+                    source={hit.recipe.source}
+                    totalTime={hit.recipe.totalTime}
+                    url={hit.recipe.url}
+                    yield={hit.recipe.yield}
+                    key={idx}
+                    id={idx}
+                  ></RecipeDisplay>
+                );
+              })}
+            </div>
           </div>
         </div>
       ) : (

@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import { useLocation } from "react-router-dom";
 import Ingredients from "../components/Ingredients";
 import styles from "../components/IngredientsDisplay.module.css";
+import Upload from "../components/Upload";
 
 const RecipesByIngredients = () => {
   const [ingredients, setIngredients] = useState([]);
+  // const ingredientRef = useRef([]);
   const [searchValue, setSearchValue] = useState("");
   const [ingredientOptions, setIngredientOptions] = useState([]);
 
@@ -30,8 +32,10 @@ const RecipesByIngredients = () => {
     setIngredients(updatedIngredients);
   };
 
+  /*====================
+  Load roboflow detected ingredients to the ingredients array
+  ====================*/
   useEffect(() => {
-    //load roboflow detected ingredients to the ingredients array
     if (haveIngredients) {
       setIngredients(haveIngredients);
       console.log("RecipesByIngredients haveIngredients", haveIngredients);
@@ -39,8 +43,11 @@ const RecipesByIngredients = () => {
     }
   }, [haveIngredients]);
 
+  /*====================
+  Fetch ingredient options from Airtable
+  ====================*/
   useEffect(() => {
-    // Fetch ingredient options from Airtable
+    //
     fetch(import.meta.env.VITE_AIRTABLE, {
       headers: {
         Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_TOKEN}`,
@@ -65,14 +72,15 @@ const RecipesByIngredients = () => {
       .catch((error) => {
         console.error("Error fetching ingredient options:", error);
       });
-  }, []); // Empty dependency array to fetch data only once
+  }, []); // Using Empty dependency array to fetch data only once
 
   return (
     <>
       <Ingredients></Ingredients>
 
       <br />
-
+      <Upload></Upload>
+      <br />
       <div>
         <h2>Ingredients</h2>
         <Select

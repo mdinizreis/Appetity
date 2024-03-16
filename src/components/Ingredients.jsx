@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Select from "react-select";
 
 const Ingredients = () => {
   const [recipes, setRecipes] = useState([]);

@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
+import styles from "./Upload.module.css";
 import axios from "axios";
 
 const Upload = () => {
   const navigate = useNavigate();
-  const [results, setResults] = useState();
   const [file, setFile] = useState();
   const [fileBase64, setFileBase64] = useState();
+  //loading spinner variables
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  //variable for the preview of image on select
+  const [preview, setPreview] = useState();
 
   /*====================
     BASE64 ENCODING THE UPLOADED IMAGE (REQUIRED BY ROBOFLOW API)
@@ -18,6 +21,8 @@ const Upload = () => {
   const convertToBase64 = () => {
     //check if the file is valid. Blob (Binary Large Object) object represents a chunk of binary data representing the image file.
     if (file instanceof Blob) {
+      setIsLoading(true);
+      setError(null);
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
@@ -36,7 +41,10 @@ const Upload = () => {
     ====================*/
   useEffect(() => {
     if (fileBase64) {
-      //API Documentation: https://docs.roboflow.com/deploy/hosted-api/object-detection
+      /*====================
+      Using ROBOFLOW Object Detection AI Computer Vision Model to detect ingredients from uploaded photo.
+      API Documentation: https://docs.roboflow.com/deploy/hosted-api/object-detection
+      ====================*/
       axios({
         method: "POST",
         url: import.meta.env.VITE_ROBOFLOW,
@@ -55,17 +63,17 @@ const Upload = () => {
           response.data.predictions.map((prediction) =>
             ingredientsPrediction.push(prediction.class)
           );
-          ingredientsPrediction = [...new Set(ingredientsPrediction)]; //Remove duplicates: create new array with ingredients[] unique values
-          setResults(ingredientsPrediction);
-          // setResults(response.data);
+          //Remove duplicates: create new array with ingredients[] unique values
+          ingredientsPrediction = [...new Set(ingredientsPrediction)];
           console.log("Upload ingredients prediction: ", ingredientsPrediction);
+          setIsLoading(false);
           navigate("/RecipesByIngredients", {
             state: { haveIngredients: ingredientsPrediction },
           });
           console.log("3-Reached Successful response");
         })
         .catch(function (error) {
-          setError(err.message);
+          setError(error.message);
           console.log(error.message);
           console.log("4-NO RESPONSE");
         });
@@ -74,10 +82,26 @@ const Upload = () => {
 
   const handleUploadClick = (event) => {
     event.preventDefault();
-    setIsLoading(true);
-    setError(null);
+    setPreview();
     convertToBase64();
     console.log("2-Reached handleUploadClick");
+  };
+
+  const handleOnChange = (event) => {
+    const file = event.target.files[0];
+    setFile(file);
+
+    /*====================
+    LOGIC TO SHOW IMAGE PREVIEW ON SELECTION
+    FileReader reads the content of the file
+    render.onloaded is an anonymous function to assign the data URL representing the file contents to preview variable
+    reader.readAsDataURL(file) method is used to read the contents of the file as a data URL.
+    ====================*/
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreview(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -85,40 +109,72 @@ const Upload = () => {
     UPLOAD FILE LABELS & BUTTON
     Submit button (Upload) will call the function to kick off the API call for Ingredients detection
     ====================*/
-    <div className="card">
-      <div className="card-header">GET INGREDIENTS BASED ON IMAGE UPLOAD</div>
-      <div className="card-body">
-        <h5 className="card-title">Roboflow API</h5>
-        <p className="card-text">
-          Using Roboflow Object Detection AI Computer Vision Model to detect
-          ingredients from uploaded photo.{" "}
-          <a href="https://docs.roboflow.com/deploy/hosted-api/object-detection">
-            Documentation
-          </a>
-        </p>
-        <form onSubmit={handleUploadClick}>
-          <input
-            type="file"
-            onChange={(event) => {
-              setFile(event.target.files[0]);
-            }}
-          />
-          <button type="submit" className="btn btn-primary mb-2">
-            Detect Ingredients
-          </button>
-          <div>{file && `Type: ${file.type}`}</div>
-        </form>
-      </div>
-      <h3>Response:</h3>
-      <p>{JSON.stringify(results)}</p>
-
-      {isLoading && (
-        <div className="centered">
-          <LoadingSpinner />
+    <div className={styles.card}>
+      <div className="card mb-3" style={{ minHeight: "18rem" }}>
+        <div className="row g-0">
+          <div className="col-md-6 centered">
+            <div className="card-body">
+              <h4 className="card-title text-start">
+                Find Recipes With What You Have
+              </h4>
+              <p className="card-text text-start">
+                Don't know what to make? No problem, take photo of your
+                ingredients and we will find and add what you have to search
+                thousands of recipes you can make.
+              </p>
+              <p className="card-text text-start">
+                <small className="text-muted">
+                  Have we missed anything? Don't worry you can add it manually
+                  to the list
+                </small>
+              </p>
+            </div>
+          </div>
+          <div className="col-md-6 centered">
+            <form onSubmit={handleUploadClick} className="centered">
+              <div className="input-group">
+                <input
+                  className="form-control"
+                  id="inputGroupFile04"
+                  aria-describedby="inputGroupFileAddon04"
+                  aria-label="Upload"
+                  type="file"
+                  accept="image/png, image/jpg, image/bmp" //only allow upload files of these image types, as per ROBOFLOW requirements
+                  onChange={handleOnChange}
+                />
+                <button
+                  type="submit"
+                  className="btn btn-primary mb-2"
+                  id="inputGroupFileAddon04"
+                >
+                  Detect Ingredients
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      )}
 
-      {!isLoading && error && <p>{error}</p>}
+        {isLoading && (
+          <div className="centered">
+            <LoadingSpinner />
+          </div>
+        )}
+
+        {!isLoading && error && <p>{error}</p>}
+
+        {preview && (
+          <div className="centered">
+            <div className="col-md-12">
+              <p className="text-muted text-start">
+                {file && `Type: ${file.type}`}
+              </p>
+              <p className={styles.upload}>
+                <img src={preview} alt="Upload preview" />
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

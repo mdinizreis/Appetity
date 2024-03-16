@@ -1,3 +1,8 @@
+/*
+CREDIT
+Using Omelette Loading Animation from: https://codemyui.com/flip-an-omelette-loading-animation-from-faasos/
+*/
+
 :root {
   --component-dimension: 180px;
   --timing: 2s;
@@ -76,7 +81,7 @@
 .panLoader {
   width: var(--component-dimension);
   height: var(--component-dimension);
-  margin: 100px auto;
+  /* margin: 100px auto; */
 }
 
 .panLoader .loader {

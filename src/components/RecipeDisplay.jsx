@@ -6,7 +6,9 @@ const RecipeDisplay = (props) => {
     <td>
       <article className={styles.article}>
         {/************ RECIPE IMAGE ************/}
-        <a href={props.url}>
+        {/************ using rel="noopener" target="_blank" so link open on a new tab************/}
+
+        <a href={props.url} rel="noopener" target="_blank">
           <img
             alt="Recipe Image"
             src={props.image}
@@ -16,10 +18,12 @@ const RecipeDisplay = (props) => {
         </a>
         <br />
         {/************ RECIPE SOURCE NAME WITH LINK ************/}
-        <a href={props.url}>{props.source}</a>
+        <a href={props.url} rel="noopener" target="_blank">
+          {props.source}
+        </a>
 
         {/************ RECIPE TITLE WITH LINK ************/}
-        <a href={props.url}>
+        <a href={props.url} rel="noopener" target="_blank">
           <h4>{props.label}</h4>
         </a>
         <tr>
@@ -43,13 +47,13 @@ const RecipeDisplay = (props) => {
           </td>
         </tr>
         {/************ RECIPE'S INGREDIENTS LIST ************/}
-        <ul className="list-group list-group-flush">
+        {/* <ul className="list-group list-group-flush">
           {props.ingredientLines.map((ingredient, index) => (
             <li className="list-group-item" key={index}>
               <span>{ingredient}</span>
             </li>
           ))}
-        </ul>
+        </ul> */}
       </article>
     </td>
   );

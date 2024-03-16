@@ -1,0 +1,17 @@
+/*load image with scaled proportions (width/height: auto) but not exceeding the max */
+.upload img {
+  max-width: 500px;
+  max-height: 500px;
+  width: auto;
+  height: auto;
+  float: inline-start;
+}
+
+.card button {
+  background-color: black;
+  border-color: black;
+}
+
+.card div {
+  font-family: "Roboto", sans-serif;
+}
