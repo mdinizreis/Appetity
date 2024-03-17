@@ -119,13 +119,12 @@ const Upload = () => {
               </h4>
               <p className="card-text text-start">
                 Don't know what to make? No problem, take photo of your
-                ingredients and we will find and add what you have to search
-                thousands of recipes you can make.
+                ingredients and we will detect what you have to search thousands
+                of recipes you can make.
               </p>
               <p className="card-text text-start">
                 <small className="text-muted">
-                  Have we missed anything? Don't worry you can add it manually
-                  to the list
+                  If we miss anything you can still add it manually to the list!
                 </small>
               </p>
             </div>

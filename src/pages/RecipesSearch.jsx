@@ -19,6 +19,7 @@ const RecipesSearch = () => {
           <Recipe></Recipe>
           {/************ DISPLAY 'RECIPES FOUND' COUNTER ************/}
           <br />
+          <br />
           <div className={styles.recipelist}>
             <h5>Found {recipes?.count ?? 0} Recipes</h5>
           </div>

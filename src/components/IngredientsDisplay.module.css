@@ -1,10 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
 .container {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: center;
-  font-family: "Roboto";
+  font-family: "Roboto", sans-serif;
 }
 .container .button {
   background-image: url(/public/btnDelete.png);
@@ -15,4 +17,65 @@
   height: 18px;
   width: 18px;
   cursor: pointer;
+}
+
+.card div {
+  background-color: #ffe3cd;
+  font-family: "Roboto", sans-serif;
+}
+.article {
+  width: 15.8rem;
+  border: solid white;
+  border-radius: 0.8em;
+}
+
+/* Recipe Image */
+.article img {
+  border: solid white;
+  border-radius: 0.8em;
+}
+
+/* Calories, Yield and Time labels */
+.article label {
+  font-size: small;
+  color: black;
+  padding-left: 0.5em;
+}
+
+.article a {
+  font-size: small;
+  color: black;
+  text-decoration: none;
+}
+
+/* Recipe Title */
+.article h4 {
+  font-size: 1.5em;
+  color: #1e7f28;
+  /* color: #881c37; */
+  font-family: "Roboto";
+}
+
+.recipelist {
+  background-color: whitesmoke;
+  font-family: "Roboto";
+}
+
+/* Found x Recipe label */
+.recipelist h5 {
+  text-align: center;
+  color: rgb(96, 96, 96);
+  font-family: "Roboto";
+}
+
+.recipelistContainer {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.recipelist {
+  /* white-space: nowrap; */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 5px;
 }
