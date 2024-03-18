@@ -2,7 +2,12 @@ import React from "react";
 import styles from "./RecipeDisplay.module.css";
 
 const IngredientsDisplay = (props) => {
-  //get the URL of the specific recipe and open in a new browser tab
+  /*====================
+  SPOONACULAR API GET TO RETRIEVE SPECIFIC RECIPE (RECIPE ID) UPON USER CLICK
+  get the URL of the specific recipe and open in a new tab of the browser
+  Documentation: https://spoonacular.com/food-api/docs#Get-Recipe-Information
+  ====================*/
+
   const handleClick = async (recipeID) => {
     try {
       const url = new URL(
@@ -26,6 +31,7 @@ const IngredientsDisplay = (props) => {
         window.open(data.sourceUrl, "_blank");
       } else {
         console.log("Failed to load recipes");
+        alert("Oops...Something went wrong! Failed to load recipes");
       }
     } catch (error) {
       console.log(error.message);
@@ -59,29 +65,36 @@ const IngredientsDisplay = (props) => {
         <tr>
           <td>
             <label>
-              <strong>Ingredients used:</strong> {props.usedIngredientCount}
+              <strong>You will use </strong>these {props.usedIngredientCount}{" "}
+              ingredients:
             </label>
+            <ul className="list-group list-group-flush">
+              {props.usedIngredients.map((usedIngredient, index) => (
+                <li className="list-group-item" key={index}>
+                  <span>{usedIngredient.amount}</span>{" "}
+                  <span>{usedIngredient.unitShort}</span>{" "}
+                  <span>{usedIngredient.name}</span>
+                </li>
+              ))}
+            </ul>
           </td>
-          <td>
+          {/* <td>
             <label>
               {" "}
               <strong>Unused:</strong> {props.unusedIngredients.length}
             </label>
-          </td>
-
-          {/* <td>
-            <label>
-              <strong> Missed:</strong> {props.missedIngredientCount}
-            </label>
           </td> */}
         </tr>
-        <strong>Missed:</strong> {props.missedIngredientCount}
-        {console.log(props.missedIngredients)}
+        <label>
+          <strong>You are missing </strong>these {props.missedIngredientCount}{" "}
+          ingredients:
+        </label>
+
         {/************ MISSED INGREDIENTS LIST ************/}
         <ul className="list-group list-group-flush">
           {props.missedIngredients.map((missedIngredient, index) => (
             <li className="list-group-item" key={index}>
-              <span>{missedIngredient.amount}</span>
+              <span>{missedIngredient.amount}</span>{" "}
               <span>{missedIngredient.unitShort}</span>{" "}
               <span>{missedIngredient.name}</span>
             </li>

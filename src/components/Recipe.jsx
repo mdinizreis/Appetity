@@ -5,13 +5,12 @@ import styles from "./Recipe.module.css";
 
 const Recipe = () => {
   const navigate = useNavigate(); //useNavigate hook to handle navigation programmatically.
-  // const [recipes, setRecipes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [recipeQuery, setRecipeQuery] = useState("");
 
   /*====================
-    RECIEVES RECIPE QUERY FROM INPUT, FETCH EDAMAM API DATA AND PASS AS STATE OBJECT
+    EDAMAM API GET TO GET RECIPES BASED ON USER SEARCH TERM
     Using EDAMAM Recipe Search API to get recipes based on search terms, dietary restrictions, nutrional requirements, etc.
     Pass the recipes data as a state object to Recipes page (for it to be processed and displayed)
     API Documentation: https://developer.edamam.com/edamam-docs-recipe-api
@@ -35,17 +34,18 @@ const Recipe = () => {
           "Content-Type": "application/json",
         },
       });
-
+      /*====================
+    REDIRECT (NAVIGATE) TO ANOTHER PAGE PASSING RETRIEVED RECIPES DATA
+    After successfully fetching the recipes data, redirect (navigate) to the RecipesSearch page and pass the recipes data as a state object
+    ====================*/
       if (recipeQueryRes.ok) {
         const data = await recipeQueryRes.json();
-        // setRecipes(data);
-        // console.log(data);
-        //after successfully fetching the recipes data redirect (navigate) to the RecipesSearch page and pass the recipes data as a state object
         setIsLoading(false);
         navigate("/RecipesSearch", { state: { recipes: data } });
-        // setRecipes(JSON.stringify(data));
       } else {
+        setIsLoading(false);
         console.log("Failed to load recipes");
+        alert("Oops...Something went wrong! Failed to load recipes");
       }
     } catch (error) {
       setError(error.message);
@@ -90,12 +90,15 @@ const Recipe = () => {
               </p>
             </div>
           </div>
+
+          {/* RENDERS LOADING SPINNER WHEN BUTTON IS CLICKED (THAT SETS ISLOADING TO TRUE) AND API CALL IS BEING EXECUTED*/}
           {isLoading && (
             <div className="centered">
               <LoadingSpinner />
             </div>
           )}
 
+          {/* STOP LOADING SPINNER WHEN API CALL HAS FINISHED (SUCCESSFULLY OR NOT) */}
           {!isLoading && error && <p>{error}</p>}
         </div>
       </div>

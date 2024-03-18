@@ -2,6 +2,10 @@ import React from "react";
 import styles from "./NavBar.module.css";
 import { NavLink } from "react-router-dom";
 
+/*====================
+CREATE NAVBAR & SET ITS NAVIGATION LOGIC
+====================*/
+
 const NavBar = () => {
   return (
     <header className={styles.navbar}>

@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
-// import styles from "../components/RecipeDisplay.module.css";
 import { useNavigate } from "react-router-dom";
 
 const Ingredients = (props) => {
   const navigate = useNavigate(); //useNavigate hook to handle navigation programmatically.
-  // const [recipes, setRecipes] = useState([]);
   const [ingredientsQuery, setIngredientsQuery] = useState(
     props.ingredientsString
   );
 
+  /*====================
+  SPOONACULAR API GET TO RETRIEVE LIST OF RECIPES BASED ON LIST OF INGREDIENTS
+  Documentation: https://spoonacular.com/food-api/docs#Search-Recipes-by-Ingredients
+  ====================*/
   useEffect(() => {
-    //Documentation: https://spoonacular.com/food-api/docs#Search-Recipes-by-Ingredients
     async function fetchData() {
       try {
         const url = new URL(import.meta.env.VITE_SPOONACULAR);
@@ -32,14 +33,10 @@ const Ingredients = (props) => {
         if (ingredientsQueryRes.ok) {
           console.log("Succesfully load recipes");
           const data = await ingredientsQueryRes.json();
-          // let ingredientsRes = [];
-          // data.map((id) => ingredientsRes.push(id.title));
-          // console.log(ingredientsRes);
-          // setRecipes(ingredientsRes);
-          // setRecipes(data);
           navigate("/RecipesByIngredients", { state: { recipes: data } });
         } else {
           console.log("Failed to load recipes");
+          alert("Oops...Something went wrong! Failed to load recipes");
         }
       } catch (error) {
         console.log(error.message);

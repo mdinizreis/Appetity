@@ -15,8 +15,8 @@ const Upload = () => {
   const [preview, setPreview] = useState();
 
   /*====================
-    BASE64 ENCODING THE UPLOADED IMAGE (REQUIRED BY ROBOFLOW API)
-    Base64 encoding converts the image into a readable string
+    BASE64 ENCODING THE UPLOADED IMAGE
+    Base64 encoding converts the image into a readable string (required by Roboflow API)
     ====================*/
   const convertToBase64 = () => {
     //check if the file is valid. Blob (Binary Large Object) object represents a chunk of binary data representing the image file.
@@ -35,16 +35,14 @@ const Upload = () => {
   };
 
   /*====================
-    ENSURES (UseEffect) API CALL IS ONLY EXECUTED WHEN UPLOADED IMAGE IS PROCESSED (fileBase64 has proper data)
-    useEffect hook that watches for changes in the fileBase64 state using the dependency array [fileBase64].
+    ROBOFLOW API POST TO UPLOAD IMAGE AND RETRIEVE INGREDIENTS PREDICTION - ONLY AFTER UPLOADED IMAGE IS ENCODED
+    useEffect hook watches for changes in the fileBase64 state using the dependency array [fileBase64].
     When fileBase64 changes (i.e., when it receives the proper data), the useEffect hook is triggered, and the API call is executed.
+    Using ROBOFLOW Object Detection AI Computer Vision Model to detect ingredients from uploaded photo.
+    API Documentation: https://docs.roboflow.com/deploy/hosted-api/object-detection
     ====================*/
   useEffect(() => {
     if (fileBase64) {
-      /*====================
-      Using ROBOFLOW Object Detection AI Computer Vision Model to detect ingredients from uploaded photo.
-      API Documentation: https://docs.roboflow.com/deploy/hosted-api/object-detection
-      ====================*/
       axios({
         method: "POST",
         url: import.meta.env.VITE_ROBOFLOW,
@@ -63,7 +61,9 @@ const Upload = () => {
           response.data.predictions.map((prediction) =>
             ingredientsPrediction.push(prediction.class)
           );
-          //Remove duplicates: create new array with ingredients[] unique values
+          /*====================
+          Remove duplicates: create new array with ingredients[] unique values
+          ====================*/
           ingredientsPrediction = [...new Set(ingredientsPrediction)];
           console.log("Upload ingredients prediction: ", ingredientsPrediction);
           setIsLoading(false);
@@ -75,28 +75,28 @@ const Upload = () => {
         .catch(function (error) {
           setError(error.message);
           console.log(error.message);
-          console.log("4-NO RESPONSE");
         });
     }
   }, [fileBase64]);
 
+  /*====================
+  UPON USER CLICK SHOW IMAGE PREVIEW AND CONVERT UPLOADED IMAGE TO BE USED ON API CALL
+  ====================*/
   const handleUploadClick = (event) => {
     event.preventDefault();
     setPreview();
     convertToBase64();
-    console.log("2-Reached handleUploadClick");
   };
 
+  /*====================
+  ON FILE SELECTION UPDATE FILE VARIABLE WITH UPLOADED IMAGE AND SHOW IMAGE PREVIEW
+  FileReader reads the content of the file
+  render.onloaded is an anonymous function to assign the data URL representing the file contents to preview variable
+  reader.readAsDataURL(file) method is used to read the contents of the file as a data URL.
+  ====================*/
   const handleOnChange = (event) => {
     const file = event.target.files[0];
     setFile(file);
-
-    /*====================
-    LOGIC TO SHOW IMAGE PREVIEW ON SELECTION
-    FileReader reads the content of the file
-    render.onloaded is an anonymous function to assign the data URL representing the file contents to preview variable
-    reader.readAsDataURL(file) method is used to read the contents of the file as a data URL.
-    ====================*/
     const reader = new FileReader();
     reader.onloadend = () => {
       setPreview(reader.result);

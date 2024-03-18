@@ -12,8 +12,8 @@ const RecipesSearch = () => {
 
   return (
     <div>
-      {/* Check is recipes is truthy (meaning user is landing on this page from search in the Main) 
-      otherwise (user is landing on this page from click on the navbar) display the search card  */}
+      {/* NAVIGATION - USER LANDING FROM SEARCH IN MAIN PAGE
+      Check is recipes is truthy (meaning user is landing on this page from search in the Main) */}
       {recipes ? (
         <div>
           <Recipe></Recipe>
@@ -47,7 +47,8 @@ const RecipesSearch = () => {
         </div>
       ) : (
         /*====================
-        if user is landing on this page from click on the navbar) display the search card
+        NAVIGATION - USER LANDING FROM NAVBAR
+        otherwise (user is landing on this page from click on the navbar) just display the search card
         ====================*/
         <Recipe></Recipe>
       )}

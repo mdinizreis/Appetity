@@ -10,6 +10,9 @@ import NavBar from "./components/NavBar";
 
 function App() {
   return (
+    /*====================
+    REACT ROUTER LOGIC FOR MAIN, RECIPES, INGREDIENTS AND NOT FOUND PAGES
+    ====================*/
     <>
       <Suspense fallback={<h1>loading...</h1>}>
         <NavBar></NavBar>

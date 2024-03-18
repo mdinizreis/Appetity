@@ -1,4 +1,4 @@
-/*load image with scaled proportions (width/height: auto) but not exceeding the max */
+/*Upload image with scaled proportions (width/height: auto) but not exceeding the max */
 .upload img {
   max-width: 500px;
   max-height: 500px;

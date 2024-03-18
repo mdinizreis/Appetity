@@ -4,6 +4,10 @@ import styles from "./Recipe.module.css";
 const EmailNewsletter = () => {
   const [inputEmail, setInputEmail] = useState("");
 
+  /*====================
+  AIRTABLE API POST TO INCLUDE USER EMAIL IN TABLE
+  ====================*/
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -29,8 +33,8 @@ const EmailNewsletter = () => {
         console.log("Email submitted successfully");
         alert("Email added! Wait to hear from us soon!");
       } else {
-        console.log("Oops...Something went wrong! Failed to submit email");
-        // Handle failure case here
+        console.log("Failed to submit email");
+        alert("Oops...Something went wrong! Failed to submit email");
       }
     } catch (error) {
       console.error("Error submitting email:", error);
@@ -38,6 +42,9 @@ const EmailNewsletter = () => {
   };
 
   return (
+    /*====================
+    GET USER EMAIL INPUT AND CALL HANDLESUBMIT FOR API CALL
+    ====================*/
     <div className={styles.newsletter}>
       <div className="card mb-3">
         <div className="row g-0">

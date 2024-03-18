@@ -47,6 +47,8 @@ const RecipeDisplay = (props) => {
           </td>
         </tr>
         {/************ RECIPE'S INGREDIENTS LIST ************/}
+        {/* un-comment this section so it also shows the list of ingredients */}
+
         {/* <ul className="list-group list-group-flush">
           {props.ingredientLines.map((ingredient, index) => (
             <li className="list-group-item" key={index}>

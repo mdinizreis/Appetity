@@ -1,6 +1,9 @@
 import styles from "./LoadingSpinner.module.css";
 
 const LoadingSpinner = () => {
+  /*====================
+  LOADS THE DIV ELEMENTS FOR THE LOADING SPINNER ANIMATION
+  ====================*/
   return (
     <div className={styles.panLoader}>
       <div className={styles.loader}></div>

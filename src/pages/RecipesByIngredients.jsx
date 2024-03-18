@@ -30,33 +30,39 @@ const RecipesByIngredients = () => {
     }
   }, [haveIngredients]);
 
+  /*====================
+  push selected ingredient to the ingredients array
+  ====================*/
   const handleSelectIngredient = (selectedOption) => {
     const selectedIngredient = selectedOption.value;
-    //push selected ingredient to the ingredients array
     setIngredients([...ingredients, selectedIngredient]);
-
-    console.log("Array of Ingredients", ingredients);
-    // setSearchValue("");
   };
 
+  /*====================
+  remove ingredient from the ingredients array
+  ====================*/
   const handleRemoveIngredient = (index) => {
     const updatedIngredients = [...ingredients];
     updatedIngredients.splice(index, 1);
     setIngredients(updatedIngredients);
   };
 
+  /*====================
+  PREPARE INGREDIENTS LIST FOR SEARCH QUERY
+  join all ingredients from the ingridients array into a string of items separated by comma ","
+  ====================*/
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("FIND MY RECIPES CLICKED");
-    //prepare for search query: join all ingredients from the ingridients array into a string of items separated by comma ","
     const prepIngredientsString = ingredients.join(",");
     setIngredientsString(prepIngredientsString);
   };
 
   return (
     <>
+      {/* LOADS THE UPLOAD COMPONENT */}
       <Upload></Upload>
 
+      {/* LOADS THE INGREDIENTS SEARCH/DROPDOWN */}
       <div className="card" style={{ backgroundColor: "#ffe3cd" }}>
         <IngredientsAutocomplete
           handleSelectIngredient={handleSelectIngredient}
@@ -65,7 +71,7 @@ const RecipesByIngredients = () => {
 
         <br />
 
-        {/* Display list of Detected and Selected Ingredients */}
+        {/* DISPLAY LIST OF DETECTED AND SELECTED (DROPDOWN) INGREDIENTS */}
         {console.log("Ingredients array have: ", ingredients)}
         <div className={styles.container}>
           <h5 style={{ margin: "15px" }}>Your List: </h5>
@@ -89,6 +95,9 @@ const RecipesByIngredients = () => {
             </ul>
           ))}
         </div>
+
+        {/* INGREDIENTS LIST SEARCH QUERY IS PASSED TO INGREDIENTS COMPONENT FOR API CALL*/}
+        {/* UPDATES RECIPE VARIABLE WITH RETIREVED DATA*/}
         {ingredientsString && (
           <div>
             <Ingredients ingredientsString={ingredientsString}></Ingredients>
@@ -98,7 +107,7 @@ const RecipesByIngredients = () => {
 
       {recipes && (
         <div>
-          {/************ DISPLAY RECIPE LIST ************/}
+          {/************ DISPLAY RETURNED RECIPE LIST ************/}
           <div className={styles.recipelistContainer}>
             <div className={styles.recipelist}>
               {recipes.map((recipe, idx) => {
@@ -109,8 +118,8 @@ const RecipesByIngredients = () => {
                     missedIngredientCount={recipe.missedIngredientCount}
                     missedIngredients={recipe.missedIngredients}
                     title={recipe.title}
-                    unusedIngredients={recipe.unusedIngredients}
                     usedIngredientCount={recipe.usedIngredientCount}
+                    usedIngredients={recipe.usedIngredients}
                     key={idx}
                     id={idx}
                   ></IngredientsDisplay>

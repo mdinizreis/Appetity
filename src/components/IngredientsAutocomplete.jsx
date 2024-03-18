@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
-import styles from "./Upload.module.css";
 
 const IngredientsAutocomplete = (props) => {
   const [ingredientOptions, setIngredientOptions] = useState([]);
@@ -8,14 +7,14 @@ const IngredientsAutocomplete = (props) => {
   const [offset, setOffset] = useState();
 
   /*====================
-  FETCH INGREDIENT OPTIONS FROM AIRTABLE
-  Airtable only returns 100 records per call and on each call returns a 'offset' parameters to be used on the next call (so it continues retrieving from where it left)
-  getNextPage() receives the offset value after the first API call is executed and recursevely calls itself until there is no more offset being returned (reached end of records)
+  AIRTABLE API GET TO RETRIEVE INGREDIENT OPTIONS - SUBSEQUENT API CALLS (PAGINATION)
+  Airtable only returns 100 records per call so multiple calls need to be done to retrieve all records in the table 
+  Each call returns a 'offset' parameter that is used on the next call (so it can continues retrieving records from where it left on the previous)
+  getNextPage() receives the offset value after the first API call and recursevely calls itself until there is no more offset being returned (reached end of records)
   Check List Records > Pagination for more info: https://airtable.com/appO4hsxlcXJe17xz/api/docs#curl/table:ingredients:list
   ====================*/
 
   const getNextPage = (offset) => {
-    console.log("Next page data.offset", offset);
     fetch(import.meta.env.VITE_AIRTABLE + "ingredients" + "?offset=" + offset, {
       headers: {
         Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_TOKEN}`,
@@ -27,7 +26,6 @@ const IngredientsAutocomplete = (props) => {
       })
       .then((data) => {
         console.log(data);
-
         // Transform the retrieved data into the expected format
         const transformedOptions = data.records.map((record) => ({
           value: record.fields.ingredient,
@@ -48,12 +46,13 @@ const IngredientsAutocomplete = (props) => {
   };
 
   /*====================
-  FETCH INGREDIENT OPTIONS FROM AIRTABLE
+  AIRTABLE API GET TO RETRIEVE INGREDIENT OPTIONS - FIRST API CALL
   First API fetch to be executed as page loads. If there are more than 100 records use the offset parameter returned to call getNextPage() function
+  Transform the retrieved data into the expected format for the dropdown and add it to the IngredientOptions array
+  Documentation: https://airtable.com/appO4hsxlcXJe17xz/api/docs#curl/table:ingredients:list
   ====================*/
 
   useEffect(() => {
-    //execute this to get the first page (airtable only returns 100 records per API call)
     fetch(import.meta.env.VITE_AIRTABLE + "ingredients", {
       headers: {
         Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_TOKEN}`,
@@ -110,11 +109,13 @@ const IngredientsAutocomplete = (props) => {
                 value={searchValue}
                 onChange={props.handleSelectIngredient} //lifting to parent funtion
               />
-              <div className={styles.card}>
-                <button type="submit" className="btn btn-primary mb-2">
-                  Find My Recipes
-                </button>
-              </div>
+              <button
+                type="submit"
+                className="btn btn-primary mb-2"
+                style={{ backgroundColor: "black", borderColor: "black" }}
+              >
+                Find My Recipes
+              </button>
             </div>
           </form>
         </div>
