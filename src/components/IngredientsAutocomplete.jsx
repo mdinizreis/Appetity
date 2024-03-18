@@ -10,7 +10,7 @@ const IngredientsAutocomplete = (props) => {
   Fetch ingredient options from Airtable
   ====================*/
   useEffect(() => {
-    fetch(import.meta.env.VITE_AIRTABLE, {
+    fetch(import.meta.env.VITE_AIRTABLE + "ingredients", {
       headers: {
         Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_TOKEN}`,
       },

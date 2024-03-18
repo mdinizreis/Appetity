@@ -13,3 +13,14 @@
   background-color: black;
   border-color: black;
 }
+
+.newsletter div {
+  font-family: "Roboto", sans-serif;
+  background-color: whitesmoke;
+  border: none;
+}
+
+.newsletter button {
+  background-color: black;
+  border-color: black;
+}
