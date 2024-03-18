@@ -6,6 +6,10 @@ Second project: Ingredient detection and Recipe Search web app built with React
 
 Appetity is like having a magical kitchen genie! You simply snap a photo of your food stash, and boom! An AI Object Detection model jumps into action, scanning your goodies like a detective on a mission. It then compiles a handy list of all the ingredients it found, saving you the hassle of manual input. But wait, there's more! With the power of autocomplete, adding or removing items from the list is as smooth as butter on a hot skillet. Now comes the exciting part - unleash the recipe hunter within you! Using the ingredients list, Appetity hunts down recipes that match your culinary inventory. It even plays matchmaker, revealing the missing ingredients you'll need for your cooking masterpiece. It's like having a personal kitchen assistant that whispers, "Psst, don't forget the garlic!" And hey, if you're not into all that fancy wizardry, no worries! Just type in your cravings, and Appetity's trusty Recipe Search will serve up delightful suggestions faster than you can say, "Bon appétit!"
 
+![](assets/main_page.png)
+![](assets/ingredients_page.png)
+![](assets/recipes_page.png)
+
 ## Technologies Used
 
 ![react](assets/react.png)
