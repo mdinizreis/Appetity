@@ -47,30 +47,22 @@ const EmailNewsletter = () => {
     ====================*/
     <div className={styles.newsletter}>
       <div className="card mb-3">
-        <div className="row g-0">
-          <div className="col-md-6 centered">
-            <form onSubmit={handleSubmit} className="centered">
-              <input
-                size="40"
-                type="email"
-                value={inputEmail}
-                onChange={(event) => {
-                  setInputEmail(event.target.value);
-                }}
-                placeholder="your@email.com"
-              />
-              <button type="submit" className="btn btn-primary mb-2">
-                Submit
-              </button>
-            </form>
-          </div>
-          <div className="col-md-6 centered">
-            <div className="card-body">
-              <h4 className="card-title text-start">
-                Sign up for our Newsletter!
-              </h4>
-            </div>
-          </div>
+        <div className="card-body">
+          <h4 className="card-title centered">Sign up for our Newsletter!</h4>
+          <form onSubmit={handleSubmit} className="centered">
+            <input
+              size="40"
+              type="email"
+              value={inputEmail}
+              onChange={(event) => {
+                setInputEmail(event.target.value);
+              }}
+              placeholder="your@email.com"
+            />
+            <button type="submit" className="btn btn-primary mb-2">
+              Submit
+            </button>
+          </form>
         </div>
       </div>
     </div>
