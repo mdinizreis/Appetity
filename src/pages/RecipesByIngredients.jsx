@@ -72,7 +72,6 @@ const RecipesByIngredients = () => {
         <br />
 
         {/* DISPLAY LIST OF DETECTED AND SELECTED (DROPDOWN) INGREDIENTS */}
-        {console.log("Ingredients array have: ", ingredients)}
         <div className={styles.container}>
           <h5 style={{ margin: "15px" }}>Your Pantry List: </h5>
 

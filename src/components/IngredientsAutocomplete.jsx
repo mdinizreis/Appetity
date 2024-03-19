@@ -25,7 +25,6 @@ const IngredientsAutocomplete = (props) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         // Transform the retrieved data into the expected format
         const transformedOptions = data.records.map((record) => ({
           value: record.fields.ingredient,
@@ -93,7 +92,7 @@ const IngredientsAutocomplete = (props) => {
 
     <div className="card-body" style={{ height: "7rem", fontFamily: "Roboto" }}>
       <h4 className="card-title">What Ingredients do you have?</h4>
-      <h6>We have added the ingredients we detected on your pantry list.</h6>
+      <h6>We have added the ingredients we detected on your pantry list!</h6>
       <h6 className="card-subtitle mb-2 text-muted">
         Have we missed anything? Just search below to add it manually and when
         you are ready hit the button!

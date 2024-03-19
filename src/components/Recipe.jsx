@@ -26,7 +26,6 @@ const Recipe = () => {
       url.searchParams.append("app_key", import.meta.env.VITE_EDAMAM_API_KEY);
       url.searchParams.append("app_id", import.meta.env.VITE_EDAMAM_API_APP_ID);
       url.searchParams.append("q", recipeQuery);
-      console.log(url);
 
       const recipeQueryRes = await fetch(url, {
         method: "GET",

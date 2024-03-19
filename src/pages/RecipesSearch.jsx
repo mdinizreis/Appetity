@@ -7,8 +7,6 @@ import Recipe from "../components/Recipe";
 const RecipesSearch = () => {
   const location = useLocation();
   const recipes = location.state?.recipes ?? null;
-  console.log("Recipes Search Page Count:", recipes?.count);
-  console.log("Recipes Search Page Hits:", recipes?.hits);
 
   return (
     <div>
