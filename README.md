@@ -23,6 +23,20 @@ Appetity is like having a magical kitchen genie! You simply snap a photo of your
 
 ## Getting Started
 
+- Fork it!
+- Install [Node.js](https://nodejs.org/en/download)
+- Install useNavigate hook based navigation in React.
+  `npm install react-use-navigate`
+- Sign up and get your own token/API keys for the API providers listed below and **update your .env file**:
+  - [EDAMAM](https://www.edamam.com/)
+  - [SPOONACULAR](https://spoonacular.com/food-api)
+  - [ROBOFLOW](https://roboflow.com/): You will also need to create your Object Detection Project (you can copy it from one of their [open source computer vision datasets](https://universe.roboflow.com/)) and train your own model
+  - [AIRTABLE](https://airtable.com/): You will also need to create your table for the list of ingredients and to receive the user email
+- Run locally
+  `npm run dev`
+- If you are deploying it, just run the command below to create a list folder with the built files
+  `npm run build`
+
 ## Features
 
 - This app uses 4 third party APIs to perform different actions:
@@ -68,7 +82,7 @@ Appetity is like having a magical kitchen genie! You simply snap a photo of your
 
 - Learned about new hooks:
   - **useNavigate** and **useLocation** from the React Router library for managing navigation and accessing the current location in a React component.Together, these hooks enable React components to handle navigation, retrieve and utilize the current URL information, and create dynamic and interactive routing behavior, allowing state values to be passed and accessed for further processing or rendering.
-  - **Select** from react-selectis is a flexible and customizable dropdown component for selecting one or multiple options from a listproviding an intuitive and user-friendly interface with features like search functionality (autocomplete), option filtering, and the ability to render custom option components.
+  - **Select** from react-select is a flexible and customizable dropdown component for selecting one or multiple options from a listproviding an intuitive and user-friendly interface with features like search functionality (autocomplete), option filtering, and the ability to render custom option components.
   - **Airtable API call pagination** process of retrieving large datasets from Airtable's API in smaller chunks or pages (max return per call is 100 records), using pagination parameters like "offset" or "page size," to handle and iterate through the data.
 
 ## Next Steps
