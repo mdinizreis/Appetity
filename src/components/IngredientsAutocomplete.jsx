@@ -93,9 +93,10 @@ const IngredientsAutocomplete = (props) => {
 
     <div className="card-body" style={{ height: "7rem", fontFamily: "Roboto" }}>
       <h4 className="card-title">What Ingredients do you have?</h4>
+      <h6>We have added the ingredients we detected on your pantry list.</h6>
       <h6 className="card-subtitle mb-2 text-muted">
-        Have we missed anything? Search below to add it manually and click on
-        the button!
+        Have we missed anything? Just search below to add it manually and when
+        you are ready hit the button!
       </h6>
       <div className="row g-0">
         <div className="col-md-12">

@@ -74,7 +74,7 @@ const RecipesByIngredients = () => {
         {/* DISPLAY LIST OF DETECTED AND SELECTED (DROPDOWN) INGREDIENTS */}
         {console.log("Ingredients array have: ", ingredients)}
         <div className={styles.container}>
-          <h5 style={{ margin: "15px" }}>Your List: </h5>
+          <h5 style={{ margin: "15px" }}>Your Pantry List: </h5>
 
           {ingredients.map((ingredient, index) => (
             <ul
