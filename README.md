@@ -25,6 +25,10 @@ Appetity is like having a magical kitchen genie! You simply snap a photo of your
 
 - Fork it!
 - Install [Node.js](https://nodejs.org/en/download)
+- Go to project folder and install react-app
+  `npm i`
+- Install react-router-dom
+  `npm install react-router-dom`
 - Install useNavigate hook based navigation in React.
   `npm install react-use-navigate`
 - Sign up and get your own token/API keys for the API providers listed below and **update your .env file**:
